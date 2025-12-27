@@ -18,21 +18,14 @@ CONFIDENCE_THRESHOLD = 0.7
 
 def main():
     loaded_memes_dict = load_memes(MEME_IMAGES)
+    model = load_model(MODEL_PATH)
     
-    try:
-        model = load_model(MODEL_PATH)
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
-        return
-
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         print("Error: camera not found")
         return
 
-    print("Camera opened. Starting meme detector...")
-    print(f"(Confidence threshold: {CONFIDENCE_THRESHOLD})")
     print("(Press 'Q' to exit)")
     
     current_meme_cls = None
@@ -75,13 +68,12 @@ def main():
             cv2.putText(frame, f"MEME: {current_meme_cls} ({current_proba:.0%})", (30, frame.shape[0] - 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
-        cv2.imshow("Live Meme Detector", frame)
+        cv2.imshow("Minion lab", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     
     cap.release()
     cv2.destroyAllWindows()
-    print("Application closed")
 
 if __name__ == "__main__":
     main()
